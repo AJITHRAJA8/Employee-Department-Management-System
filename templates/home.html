@@ -1,37 +1,132 @@
-    <!DOCTYPE HTML>
-    <html>
-        <head>
-            <title>Employee & Department Management System </title>
-            <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        </head>
+<!DOCTYPE HTML>
+<html>
 
-        <body>
-            <div class="one">
-                <h1>👨🏻‍💻 Employee & Department Management System</h1>
-                <ul>
-                    <li>🔔 Notifications</li>
-                    <li>ℹ️ About Us</li>
-                    <li>📞 Contact Us</li>
-                    </ul>
-            </div>
-            <div class="sidebar">
-                <div class="logo">
-                    <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="logo">
-                    <sapn class="text">EDMS</sapn>
-                </div>
-                <div class="menu">
-                    <p class="title">MAIN</p>
-                    <a href="#">🏠 Dashboard</a>
+<head>
+    <title>Employee & Department Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
-                    <p class="title">EMPLOYEE</p>
-                    <a href="#">👨‍💼 Employees</a>
-                    <a href="#">➕ Add Employee</a>
+<body>
 
-                    <p class="title">DEPARTMENT</p>
-                    <a href="#">🏛️ Departments</a>
-                    <a href="#">📋 Add Department</a>
-                </div>
+    <!-- Navbar -->
+    <div class="one">
+        <h1>👨🏻‍💻 Employee & Department Management System</h1>
+        <ul>
+            <li>🔔 Notifications</li>
+            <li>ℹ️ About Us</li>
+            <li>📞 Contact Us</li>
+        </ul>
+    </div>
+
+    <!-- Sidebar + Dashboard -->
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="logo">
+                <span class="text">EDMS</span>
             </div>
 
-        </body>
-    </html>
+            <div class="menu">
+
+                <p class="title">MAIN</p>
+                <a href="#">🏠 Dashboard</a>
+
+                <p class="title">EMPLOYEE</p>
+                <a href="#">👨‍💼 Employees</a>
+                <a href="#">➕ Add Employee</a>
+
+                <p class="title">DEPARTMENT</p>
+                <a href="#">🏛️ Departments</a>
+                <a href="#">📋 Add Department</a>
+
+            </div>
+
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+
+            <div class="heading">
+                <h1>Dashboard</h1>
+                <p>Overview of your organization</p>
+            </div>
+
+            <!-- Cards -->
+            <div class="cards">
+
+                <!-- Card 1 -->
+                <div class="card green">
+                    <div class="card-top">
+                        <div class="icon-box">👥</div>
+
+                        <div>
+                            <p>Total Employees</p>
+                            <h2>25</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        View all employees ➜
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card blue">
+                    <div class="card-top">
+                        <div class="icon-box">🏛️</div>
+
+                        <div>
+                            <p>Total Departments</p>
+                            <h2>5</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        View all departments ➜
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card purple">
+                    <div class="card-top">
+                        <div class="icon-box">₹</div>
+
+                        <div>
+                            <p>Average Salary</p>
+                            <h2>₹56,240</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        View salary report ➜
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="card orange">
+                    <div class="card-top">
+                        <div class="icon-box">🏆</div>
+
+                        <div>
+                            <p>Highest Salary</p>
+                            <h2>₹1,20,000</h2>
+                        </div>
+                    </div>
+
+                    <div class="card-bottom">
+                        View top earners ➜
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
