@@ -136,3 +136,26 @@
 .orange .icon-box{
     background:#f59e0b;
 }
+.card-bottom{
+    padding:18px 25px;
+    font-weight:bold;
+    border-top:1px solid #eee;
+}
+.green .card-bottom{
+    color:#10b981;
+    background:#f0fdf4;
+}
+.blue .card-bottom{
+    color:#3b82f6;
+    background:#eff6ff;
+}
+
+.purple .card-bottom{
+    color:#9333ea;
+    background:#faf5ff;
+}
+
+.orange .card-bottom{
+    color:#f59e0b;
+    background:#fffbeb;
+}
