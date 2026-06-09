@@ -120,6 +120,47 @@
                         View top earners ➜
                     </div>
                 </div>
+                <div class="employee-section">
+                    <div class="employee-header">
+                        <div>
+                            <h2>Employees</h2>
+                            <p>Manage all employees</p>
+                        </div>
+                        <div class="employee-actions">
+                            <button class="add-employee-btn">
+                                ➕ Add Employee
+                            </button>
+                            <input type="search" placeholder="Search employee..." class="search-box">
+                        </div>
+                    </div>
+                    <table class="employee-table">
+                        <thead> 
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Salary</th>
+                                <th>City</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in datas %}
+                            <tr>
+                                <td>{{data.id}}</td>
+                                <td>{{data.name}}</td>
+                                <td class="it">{{data.dept_name}}</td>
+                                <td>{{data.salary}}</td>
+                                <td>{{data.city}}</td>
+                                <td>
+                                    <a class="edit-btn" href="{{url_for('update',id=data.id)}}">✏ Edit</a>
+                                    <button class="delete-btn">🗑 Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 

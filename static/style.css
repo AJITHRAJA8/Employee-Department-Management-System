@@ -159,3 +159,87 @@
     color:#f59e0b;
     background:#fffbeb;
 }
+.employee-section{
+    background:white;
+    width:100%;
+    margin-top:40px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+.employee-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+.employee-header h2{
+    color:#042f2e;
+}
+.employee-header p{
+    color:gray;
+    margin-top:5px;
+}
+.employee-action{
+    display:flex;
+    gap:15px;
+}
+.add-employee-btn{
+    background-color:#10b981;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+.search-box{
+    width:250px;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+.employee-table{
+    width:100%;
+    border-collapse:collapse;
+}
+.employee-table th{
+    background:#042f2e;
+    color:white;
+    padding:15px;
+    text-align:left;
+}
+.employee-table td{
+    padding:18px 15px;
+    border-bottom:1px solid #eee;
+}
+.employee-table tr:hover{
+    background:#f8fafc;
+}
+.edit-btn{
+    background-color:#3b82f6;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    text-decoration: none;
+}
+.delete-btn{
+    background-color:#ef4444;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-left:8px;
+}
+.it{
+    color:#10b981;
+    font-weight:bold;
+}
+
+.hr{
+    color:#9333ea;
+    font-weight:bold;
+}
