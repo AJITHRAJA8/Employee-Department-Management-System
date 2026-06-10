@@ -40,7 +40,7 @@
 
                 <p class="title">DEPARTMENT</p>
                 <a href="#">🏛️ Departments</a>
-                <a href="#">📋 Add Department</a>
+                <a href="{{url_for('add_department')}}">📋 Add Department</a>
 
             </div>
 
@@ -164,7 +164,7 @@
                                 <td>{{data.city}}</td>
                                 <td>
                                     <a class="edit-btn" href="{{ url_for('update', id=data.id) }}">✏ Edit</a>
-                                    <button class="delete-btn">🗑 Delete</button>
+                                    <a class="delete-btn" href="{{url_for('delete',id=data.id)}}">🗑 Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}

@@ -59,7 +59,13 @@ def update(id):
 def search():
     search=request.form['search']
     res=con.cursor(dictionary=True)
-    sql='select * from employee where name like %s'
+    sql = (
+        "SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city "
+        "FROM employee "
+        "INNER JOIN department "
+        "ON employee.dept_id = department.dept_id "
+        "WHERE employee.name LIKE %s"
+    )
     value=('%' +search+ '%',)
     res.execute(sql,value)
     result=res.fetchall()   
@@ -99,6 +105,16 @@ def add_department():
         con.commit()
         return redirect (url_for('home'))
     return render_template('add_department.html')
+
+#Delete Employee
+@app.route('/delete/<int:id>',methods=['GET','POST'])
+def delete(id):
+    res=con.cursor(dictionary=True)
+    sql="delete from employee where id=%s"
+    value=(id,)
+    res.execute(sql,value)
+    con.commit()
+    return redirect(url_for('home'))
 
 
 
