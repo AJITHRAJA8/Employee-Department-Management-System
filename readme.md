@@ -169,12 +169,21 @@ http://127.0.0.1:8000
 ## 📸 Screens Included
 
 * Dashboard Page
+![alt text](img/image.png)
 * Employee Management Page
+![alt text](img/image-1.png)
 * Department Management Page
+![alt text](img/image-2.png)
 * Add Employee Form
+![alt text](img/image-3.png)
 * Update Employee Form
+![alt text](img/image-4.png)
 * Add Department Form
+![alt text](img/image-5.png)
 * Update Department Form
+![alt text](img/image-6.png)
+* search Function
+![alt text](img/image-7.png)
 
 ---
 
