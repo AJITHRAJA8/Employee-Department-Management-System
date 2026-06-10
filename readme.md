@@ -221,9 +221,9 @@ This project demonstrates:
 
 ## 👨‍💻 Author
 
-**Ajith Kumar**
+**Ajith**
 
-Final Year AIML Student
+Python Backend Developer
 
 ---
 
