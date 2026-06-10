@@ -64,6 +64,7 @@
                         <tr>
                             <th>Dept ID</th>
                             <th>Department Name</th>
+                            <th>Action</th>
                         </tr>
 
                         {% for data in datas %}
@@ -73,15 +74,14 @@
                             <td>{{ data.dept_id }}</td>
 
                             <td>{{ data.dept_name }}</td>
+                            <td>
+                                <a class="edit-btn" href="{{ url_for('update_department', id=data.dept_id) }}">✏ Edit</a>
+                                <a class="delete-btn">🗑 Delete</a>
+                            </td>
 
                         </tr>
 
                         {% endfor %}
-                        <tr>
-                            <td>
-                                <button value="submit"
-                            </td>
-                        </tr>
 
                     </table>
 

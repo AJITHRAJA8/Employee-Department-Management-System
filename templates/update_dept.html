@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Add Department</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+```
+<!-- Navbar -->
+<div class="one">
+    <h1>👨🏻‍💻 Employee & Department Management System</h1>
+
+    <ul>
+        <li>🔔 Notifications</li>
+        <li>ℹ️ About Us</li>
+        <li>📞 Contact Us</li>
+    </ul>
+</div>
+
+<!-- Main Container -->
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="logo">
+            <span class="text">EDMS</span>
+        </div>
+
+        <div class="menu">
+
+            <p class="title">MAIN</p>
+            <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+
+            <p class="title">EMPLOYEE</p>
+            <a href="{{ url_for('employees') }}">👨‍💼 Employees</a>
+            <a href="{{ url_for('add') }}">➕ Add Employee</a>
+
+            <p class="title">DEPARTMENT</p>
+            <a href="{{ url_for('department')}}">🏛️ Departments</a>
+            <a href="{{ url_for('add_department') }}">📋 Add Department</a>
+
+        </div>
+
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+        <div class="update-container">
+
+            <h1>📋 Update Department</h1>
+
+            <form action="" method="POST">
+
+                <label>Department Name</label>
+                {% for datas in data %}
+                    <input
+                        type="text"
+                        name="dept_name"
+                        value="{{ datas.dept_name }}"
+                        required>
+                {% endfor %}
+
+                <button type="submit"
+                        class="update-btn">
+                    update Department
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</body>
+
+</html>

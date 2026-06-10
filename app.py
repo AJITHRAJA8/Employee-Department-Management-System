@@ -136,5 +136,23 @@ def department():
     result=res.fetchall()
     return render_template('department.html',datas=result)
 
+@app.route('/update_department/<int:id>',methods=['GET','POST'])
+def update_department(id):
+    if request.method=="POST":
+        dept_name=request.form['dept_name']
+        res=con.cursor(dictionary=True)
+        sql='update department set dept_name=%s where dept_id=%s'
+        value=(dept_name,id)
+        res.execute(sql,value)
+        con.commit()
+        return redirect(url_for('department'))
+    
+    res=con.cursor(dictionary=True)
+    sql="select * from department where dept_id=%s"
+    value=(id,)
+    res.execute(sql,value)
+    result=res.fetchone()
+    return render_template('update_dept.html',data=result)
+
 if(__name__)=="__main__":
     app.run(debug=True,port=8000)
