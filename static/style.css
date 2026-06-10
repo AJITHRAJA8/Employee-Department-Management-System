@@ -416,3 +416,64 @@ td{
     border-radius:5px;
     margin-left:8px;
 }
+/* Content Area */
+.content{
+    flex:1;
+    padding:30px;
+    background:#f5f7fa;
+}
+
+/* Heading */
+.employee-header{
+    margin-bottom:25px;
+}
+
+.employee-header h1{
+    color:#042f2e;
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.employee-header p{
+    color:#6b7280;
+    font-size:16px;
+}
+
+/* Table Container */
+.table-box{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Table */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+/* Header Row */
+th{
+    background:#042f2e;
+    color:white;
+    padding:15px;
+    text-align:left;
+    font-size:16px;
+}
+
+/* Data Rows */
+td{
+    padding:15px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+/* Hover Effect */
+tr:hover{
+    background:#f9fafb;
+}
+
+/* Alternate Row Color */
+tr:nth-child(even){
+    background:#f8fafc;
+}

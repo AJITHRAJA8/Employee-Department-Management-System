@@ -1,23 +1,97 @@
 <!DOCTYPE html>
+
 <html>
+
     <head>
-        <title>Employee Tabel</title>
-        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <title>Departments</title>
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}">
     </head>
+
     <body>
-        <div>
-            <tabel>
-                <tr>
-                    <th>Dept_ID</th>
-                    <th>Dept_Name</th>
-                </tr>
-                {% for data in datas %}
-                <tr>
-                    <td>{{data.dept_id}}</td>
-                    <td>{{data.dept_name}}</td>
-                </tr>
-                {% endfor %}
-            </tabel>
+
+        <!-- Navbar -->
+        <div class="one">
+            <h1>👨🏻‍💻 Employee & Department Management System</h1>
+
+            <ul>
+                <li>🔔 Notifications</li>
+                <li>ℹ️ About Us</li>
+                <li>📞 Contact Us</li>
+            </ul>
         </div>
+
+        <!-- Main Container -->
+        <div class="container">
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <div class="logo">
+                    <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="logo">
+                    <span class="text">EDMS</span>
+                </div>
+
+                <div class="menu">
+
+                    <p class="title">MAIN</p>
+                    <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+
+                    <p class="title">EMPLOYEE</p>
+                    <a href="{{ url_for('employees') }}">👨‍💼 Employees</a>
+                    <a href="{{ url_for('add') }}">➕ Add Employee</a>
+
+                    <p class="title">DEPARTMENT</p>
+                    <a href="{{ url_for('department') }}">🏛️ Departments</a>
+                    <a href="{{ url_for('add_department') }}">📋 Add Department</a>
+
+                </div>
+
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+
+                <div class="employee-header">
+                    <h1>🏛️ Department Management</h1>
+                    <p>View all departments in the organization</p>
+                </div>
+
+                <div class="table-box">
+
+                    <table>
+
+                        <tr>
+                            <th>Dept ID</th>
+                            <th>Department Name</th>
+                        </tr>
+
+                        {% for data in datas %}
+
+                        <tr>
+
+                            <td>{{ data.dept_id }}</td>
+
+                            <td>{{ data.dept_name }}</td>
+
+                        </tr>
+
+                        {% endfor %}
+                        <tr>
+                            <td>
+                                <button value="submit"
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+
     </body>
+
 </html>
