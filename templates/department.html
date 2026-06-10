@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Employee Tabel</title>
+        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    </head>
+    <body>
+        <div>
+            <tabel>
+                <tr>
+                    <th>Dept_ID</th>
+                    <th>Dept_Name</th>
+                </tr>
+                {% for data in datas %}
+                <tr>
+                    <td>{{data.dept_id}}</td>
+                    <td>{{data.dept_name}}</td>
+                </tr>
+                {% endfor %}
+            </tabel>
+        </div>
+    </body>
+</html>
