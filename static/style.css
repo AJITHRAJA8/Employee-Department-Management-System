@@ -258,18 +258,14 @@
     color:#10b981;
     font-weight:bold;
 }
-
-.hr{
-    color:#9333ea;
-    font-weight:bold;
-}
 .update-container{
-    width:500px;
+   padding:30px;
     margin:50px auto;
     background:white;
     padding:30px;
     border-radius: 12px;
     box-shadow:0 0 15px rgba(0,0,0,0.15);
+    margin-top:30px;
 
 }
 .update-container h1{

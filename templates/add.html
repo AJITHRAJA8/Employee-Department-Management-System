@@ -1,47 +1,104 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Add Employee</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-</head>
+    <head>
+        <title>Add Employee</title>
+        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    </head>
+    <body>
 
-<body>
-    <div class="update-container">
+    ```
+    <!-- Navbar -->
+    <div class="one">
+        <h1>👨🏻‍💻 Employee & Department Management System</h1>
 
-        <h1>Add Employee</h1>
-
-        <form action="/add" method="POST">
-            <label>Name</label>
-            <input type="text"
-                   name="name"
-                   value="{{name}}"
-                   required>
-
-            <label>Department</label>
-            <select name="dept_id">
-                {% for dept in departments %}
-                    <option value="{{ dept.dept_id }}">
-                        {{ dept.dept_name }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <label>Salary</label>
-            <input type="number"
-                   name="salary"
-                   value="{{salary}}"
-                   required>
-
-            <label>City</label>
-            <input type="text"
-                   name="city"
-                   value="{{city}}"
-                   required>
-
-            <button type="submit" class="update-btn">
-                Add employee
-            </button>
-
-        </form>
+        <ul>
+            <li>🔔 Notifications</li>
+            <li>ℹ️ About Us</li>
+            <li>📞 Contact Us</li>
+        </ul>
     </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="logo">
+                <span class="text">EDMS</span>
+            </div>
+
+            <div class="menu">
+
+                <p class="title">MAIN</p>
+                <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+
+                <p class="title">EMPLOYEE</p>
+                <a href="{{ url_for('employees') }}">👨‍💼 Employees</a>
+                <a href="{{ url_for('add') }}">➕ Add Employee</a>
+
+                <p class="title">DEPARTMENT</p>
+                <a href="#">🏛️ Departments</a>
+                <a href="{{ url_for('add_department') }}">📋 Add Department</a>
+
+            </div>
+
+        </div>
+
+        <!-- Form Area -->
+        <div class="content">
+
+            <div class="update-container">
+
+                <h1>➕ Add Employee</h1>
+
+                <form action="/add" method="POST">
+
+                    <label>Name</label>
+                    <input type="text"
+                        name="name"
+                        required>
+
+                    <label>Department</label>
+
+                    <select name="dept_id">
+
+                        {% for dept in departments %}
+
+                        <option value="{{ dept.dept_id }}">
+                            {{ dept.dept_name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <label>Salary</label>
+
+                    <input type="number"
+                        name="salary"
+                        required>
+
+                    <label>City</label>
+
+                    <input type="text"
+                        name="city"
+                        required>
+
+                    <button type="submit"
+                            class="update-btn">
+                        Add Employee
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    ```
+
+    </body>
+</html>

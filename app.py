@@ -127,6 +127,14 @@ def employees():
     result=res.fetchall()
     return render_template('employees.html',datas=result)
 
+#department data
+@app.route('/department')
+def department():
+    res=con.cursor(dictionary=True)
+    sql='select * from department'
+    res.execute(sql)
+    result=res.fetchall()
+    return render_template('department.html',datas=result)
 
 if(__name__)=="__main__":
     app.run(debug=True,port=8000)
