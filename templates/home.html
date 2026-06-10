@@ -36,7 +36,7 @@
 
                 <p class="title">EMPLOYEE</p>
                 <a href="#">👨‍💼 Employees</a>
-                <a href="#">➕ Add Employee</a>
+                <a href="{{url_for('add')}}">➕ Add Employee</a>
 
                 <p class="title">DEPARTMENT</p>
                 <a href="#">🏛️ Departments</a>
@@ -127,9 +127,9 @@
                             <p>Manage all employees</p>
                         </div>
                         <div class="employee-actions">
-                            <button class="add-employee-btn">
+                            <a class="add-employee-btn" href="{{ url_for('add') }}">
                                 ➕ Add Employee
-                            </button>
+                            </a>
                             <form action="/search" method="POST" class="search-form">
                                 <input
                                     type="search"

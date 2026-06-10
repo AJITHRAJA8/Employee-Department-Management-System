@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Employee</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="update-container">
+
+        <h1>Add EMployee</h1>
+
+        <form action="/add" method="POST">
+            <label>Name</label>
+            <input type="text"
+                   name="name"
+                   value="{{name}}"
+                   required>
+
+            <label>Department</label>
+            <select name="dept_id">
+                {% for dept in departments %}
+                    <option value="{{ dept.dept_id }}">
+                        {{ dept.dept_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Salary</label>
+            <input type="number"
+                   name="salary"
+                   value="{{salary}}"
+                   required>
+
+            <label>City</label>
+            <input type="text"
+                   name="city"
+                   value="{{city}}"
+                   required>
+
+            <button type="submit" class="update-btn">
+                Add employee
+            </button>
+
+        </form>
+    </div>

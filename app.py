@@ -62,7 +62,45 @@ def search():
     sql='select * from employee where name like %s'
     value=('%' +search+ '%',)
     res.execute(sql,value)
-    result=res.fetchall()
+    result=res.fetchall()   
     return render_template("home.html",datas=result)
+
+@app.route('/add',methods=['GET','POST'])
+def add():
+    if request.method=="POST":
+        name=request.form['name']
+        salary=request.form['salary']
+        city=request.form['city']
+        dept_id=request.form['dept_id']
+        res=con.cursor(dictionary=True)
+        sql='insert into employee (name,salary,city,dept_id)' \
+            'values (%s,%s,%s,%s)'
+        value=(name,salary,city,dept_id)
+        res.execute(sql,value)
+        con.commit()
+        return redirect(url_for('home'))
+    
+    #Select Department
+    res=con.cursor(dictionary=True)
+    sql='select * from department'
+    res.execute(sql)
+    result=res.fetchall()
+    return render_template('add.html',departments=result)
+
+#Add Department
+@app.route('/add_Department',methods=['GET','POST'])
+def add_department():
+    if request.method=='POST':
+        dept_name=request.form['dept_name']
+        res=con.cursor(dictionary=True)
+        sql="insert into department (dept_name) values (%s)"
+        value=(dept_name,)
+        res.execute(sql,value)
+        con.commit()
+        return redirect (url_for('home'))
+    return render_template('add_department.html')
+
+
+
 if(__name__)=="__main__":
     app.run(debug=True,port=8000)
