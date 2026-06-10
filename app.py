@@ -116,6 +116,16 @@ def delete(id):
     con.commit()
     return redirect(url_for('home'))
 
+#Employees Page
+@app.route('/employees')
+def employees():
+    res=con.cursor(dictionary=True)
+    sql = sql = 'SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city ' \
+      'FROM employee INNER JOIN department ' \
+      'ON employee.dept_id = department.dept_id'
+    res.execute(sql)
+    result=res.fetchall()
+    return render_template('employees.html',datas=result)
 
 
 if(__name__)=="__main__":
