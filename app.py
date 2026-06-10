@@ -1,5 +1,6 @@
 from flask import Flask,render_template,url_for,request,redirect
 import mysql.connector
+from mysql.connector import IntegrityError
 
 #Getting File Name
 app=Flask(__name__)
@@ -103,7 +104,7 @@ def add_department():
         value=(dept_name,)
         res.execute(sql,value)
         con.commit()
-        return redirect (url_for('home'))
+        return redirect (url_for('department'))
     return render_template('add_department.html')
 
 #Delete Employee
@@ -136,6 +137,7 @@ def department():
     result=res.fetchall()
     return render_template('department.html',datas=result)
 
+#update Department
 @app.route('/update_department/<int:id>',methods=['GET','POST'])
 def update_department(id):
     if request.method=="POST":
@@ -153,6 +155,24 @@ def update_department(id):
     res.execute(sql,value)
     result=res.fetchone()
     return render_template('update_dept.html',data=result)
+
+#delete Department
+@app.route('/delete_dept/<int:id>',methods=['GET','POST'])
+def delete_dept(id):
+    try:
+        res=con.cursor(dictionary=True)
+        sql='delete from department where dept_id=%s'
+        value=(id,)
+        res.execute(sql,value)
+        con.commit()
+        return redirect(url_for('department'))
+    except IntegrityError:
+        return """
+        <script>
+            alert('Cannot delete this department because employees are assigned to it.');
+            window.location.href='/department';
+        </script>
+        """
 
 if(__name__)=="__main__":
     app.run(debug=True,port=8000)

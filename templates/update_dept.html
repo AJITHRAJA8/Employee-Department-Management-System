@@ -60,13 +60,11 @@
             <form action="" method="POST">
 
                 <label>Department Name</label>
-                {% for datas in data %}
                     <input
                         type="text"
                         name="dept_name"
-                        value="{{ datas.dept_name }}"
+                        value="{{ data.dept_name }}"
                         required>
-                {% endfor %}
 
                 <button type="submit"
                         class="update-btn">
