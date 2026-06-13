@@ -81,13 +81,15 @@
                         <div class="icon-box">🏛️</div>
 
                         <div>
-                            <p>Total Departments</p>
-                            <h2>5</h2>
+                            <form action="/" method="GET">
+                                <p>Total Departments</p>
+                                <h2>{{department_count.total_department}}</h2>
+                            </form>
                         </div>
                     </div>
 
                     <div class="card-bottom">
-                        View all departments ➜
+                        <a href="{{url_for('department')}}" class="bottom1">View all departments ➜</a>
                     </div>
                 </div>
 
@@ -98,7 +100,7 @@
 
                         <div>
                             <p>Average Salary</p>
-                            <h2>₹56,240</h2>
+                            <h2>₹{{avg_salary.avg_count}}</h2>
                         </div>
                     </div>
 

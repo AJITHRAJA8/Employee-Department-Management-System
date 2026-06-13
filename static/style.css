@@ -254,10 +254,6 @@
     margin-left:8px;
     text-decoration:none;
 }
-.it{
-    color:#10b981;
-    font-weight:bold;
-}
 .update-container{
    padding:30px;
     margin:50px auto;
@@ -480,4 +476,8 @@ tr:nth-child(even){
 .bottom{
     text-decoration:none;
     color:#10b981;
+}
+.bottom1{
+    text-decoration:none;
+    color:#3b82f6;
 }
