@@ -1,4 +1,4 @@
-from flask import Flask,render_template,url_for,request,redirect
+from flask import Flask,render_template,url_for,request,redirect,session
 import mysql.connector
 from mysql.connector import IntegrityError
 
@@ -18,10 +18,10 @@ else:
     print("Connection Fail")
 
 #Dashboard
-@app.route('/')
+@app.route('/home')
 def home():
     res=con.cursor(dictionary=True)
-    sql="select employee.id,name,dept_name,salary,city from employee inner join department on employee.id=department.dept_id"
+    sql="select employee.id,name,dept_name,salary,city from employee inner join department on employee.dept_id=department.dept_id"
     res.execute(sql)
     result=res.fetchall()
 
@@ -216,5 +216,24 @@ def top_earners():
     datas=res.fetchall()
     return render_template('top_earners.html',datas=datas)
 
+#LogIn Page
+@app.route('/',methods=['GET','POST'])
+def login():
+    if request.method=="POST":
+        username = request.form['username']
+        password = request.form['password']
+        res=con.cursor(dictionary=True)
+        sql='select * from login where username=%s and password=%s'
+        value=(username,password)
+        res.execute(sql,value)
+        user = res.fetchone()
+        if user:
+            session['user'] = username
+            return redirect(url_for('home'))
+        else:
+            return "Invalid Username or Password"
+    return render_template('login.html')
+
 if(__name__)=="__main__":
+    app.secret_key="Ajith@9751"
     app.run(debug=True,port=8000)
