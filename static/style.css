@@ -477,3 +477,7 @@ tr:hover{
 tr:nth-child(even){
     background:#f8fafc;
 }
+.bottom{
+    text-decoration:none;
+    color:#10b981;
+}

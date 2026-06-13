@@ -9,7 +9,7 @@ app=Flask(__name__)
 con=mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Your_pass",
+    password="___",
     database="mangement"
 )
 if con.is_connected:
@@ -24,7 +24,13 @@ def home():
     sql="select employee.id,name,dept_name,salary,city from employee inner join department on employee.id=department.dept_id"
     res.execute(sql)
     result=res.fetchall()
-    return render_template("home.html", datas=result)
+
+    #employee count
+    res=con.cursor(dictionary=True)
+    sql='select count(*) as total_employee from employee'
+    res.execute(sql)
+    employee_count = res.fetchone()
+    return render_template("home.html", datas=result,employee_count=employee_count)
 
 #Update EMployee Tabel
 @app.route('/update/<int:id>',methods=['GET','POST'])
@@ -135,6 +141,8 @@ def department():
     sql='select * from department'
     res.execute(sql)
     result=res.fetchall()
+
+    #
     return render_template('department.html',datas=result)
 
 #update Department

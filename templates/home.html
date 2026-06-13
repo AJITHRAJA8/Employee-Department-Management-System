@@ -63,13 +63,15 @@
                         <div class="icon-box">👥</div>
 
                         <div>
-                            <p>Total Employees</p>
-                            <h2>25</h2>
+                            <form action="/" method="GET">
+                                <p>Total Employees</p>
+                                <h2>{{employee_count.total_employee}}</h2>
+                            </form>
                         </div>
                     </div>
-
+ 
                     <div class="card-bottom">
-                        View all employees ➜
+                        <a href="{{url_for('employees')}}" class="bottom">View all employees ➜</a>
                     </div>
                 </div>
 
