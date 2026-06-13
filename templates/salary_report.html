@@ -1,9 +1,78 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>Salary_Report</title>
+        <link rel="stylesheet"
+              href="{{url_for('static',filename='styel.css')}}">
     </head>
     <body>
-        HIII
+        <!-- Navbar -->
+    <div class="one">
+        <h1>👨🏻‍💻 Employee & Department Management System</h1>
+        <ul>
+            <li>🔔 Notifications</li>
+            <li>ℹ️ About Us</li>
+            <li>📞 Contact Us</li>
+        </ul>
+    </div>
+
+    <!-- Sidebar + Dashboard -->
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="logo">
+                <span class="text">EDMS</span>
+            </div>
+
+            <div class="menu">
+
+                <p class="title">MAIN</p>
+                <a href="{{url_for('home')}}">🏠 Dashboard</a>
+
+                <p class="title">EMPLOYEE</p>
+                <a href="{{url_for('employees')}}">👨‍💼 Employees</a>
+                <a href="{{url_for('add')}}">➕ Add Employee</a>
+
+                <p class="title">DEPARTMENT</p>
+                <a href="{{url_for('department')}}">🏛️ Departments</a>
+                <a href="{{url_for('add_department')}}">📋 Add Department</a>
+
+                <p class="title">REPORTS</p>
+
+                <a href="{{url_for('salary_report')}}">💰 Salary Report</a>
+                <a href="{{url_for('top_earners')}}">🏆 Top Earners</a>
+
+            </div>
+
+        </div>
+
+        <div class="content">
+            <div class="employee-header">
+                <h1>💰 Salary Report</h1>
+                <p>Employee Salary Details</p>
+            </div>
+            <div class="table-box">
+                <tabel>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Salary</th>
+                    </tr>
+                    {% for data in datas %}
+                    <tr>
+                        <td>{{data.id}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.department}}</td>
+                        <td>{{data.salary}}</td>
+                    </tr>
+                    {% endfor %}
+                </tabel>
+            </div>
+
+        </div>
     </body>
 </html>
