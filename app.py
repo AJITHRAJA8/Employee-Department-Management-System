@@ -198,6 +198,23 @@ def delete_dept(id):
             window.location.href='/department';
         </script>
         """
+    
+@app.route('/salary_report')
+def salary_report():
+    res=con.cursor(dictionary=True)
+    sql='select employee.id,name,dept_name,salary from employee' \
+    ' inner join department on employee.dept_id=department.dept_id'
+    res.execute(sql)
+    datas=res.fetchall()
+    return render_template('salary_report.html',datas=datas)
+
+@app.route('/top_earners')
+def top_earners():
+    res=con.cursor(dictionary=True)
+    sql='select employee.id,name,dept_name,salary from employee inner join department on employee.dept_id = department.dept_id order by salary desc limit 5'
+    res.execute(sql)
+    datas=res.fetchall()
+    return render_template('top_earners.html',datas=datas)
 
 if(__name__)=="__main__":
     app.run(debug=True,port=8000)
