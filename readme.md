@@ -167,7 +167,10 @@ http://127.0.0.1:8000
 ---
 
 ## 📸 Screens Included
-
+* login Page
+![alt text](img/image-9.png)
+*register Page
+![alt text](img/image-8.png)
 * Dashboard Page
 ![alt text](img/image.png)
 * Employee Management Page
