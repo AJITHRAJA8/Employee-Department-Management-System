@@ -20,6 +20,9 @@ else:
 #Dashboard
 @app.route('/home')
 def home():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
     res=con.cursor(dictionary=True)
     sql="select employee.id,name,dept_name,salary,city from employee inner join department on employee.dept_id=department.dept_id"
     res.execute(sql)
@@ -233,6 +236,34 @@ def login():
         else:
             return "Invalid Username or Password"
     return render_template('login.html')
+
+#register page
+@app.route('/resister_page',methods=['GET','POST'])
+def register_page():
+    if request.method=='POST':
+        username=request.form['username']
+        password=request.form['password']
+        confirm_password=request.form['confirm_password']
+
+        if password != confirm_password:
+            return "Passwords do not match"
+        res=con.cursor(dictionary=True)
+        sql='insert into login (username,password) values(%s,%s)'
+        value=(username,password)
+        try:
+            res.execute(sql,value)
+            con.commit()
+
+            return redirect(url_for('login'))
+        except:
+            return "user name already exists"
+    return render_template('register.html')
+
+#logout page     
+@app.route('/logout')
+def logout():
+    session.pop('user',None)
+    return redirect(url_for('login'))
 
 if(__name__)=="__main__":
     app.secret_key="Ajith@9751"
