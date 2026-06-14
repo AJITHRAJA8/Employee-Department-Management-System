@@ -57,6 +57,8 @@ def home():
 #Update EMployee Tabel
 @app.route('/update/<int:id>',methods=['GET','POST'])
 def update(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
     res=con.cursor(dictionary=True)
     if request.method=='POST':
         name=request.form['name']
@@ -86,6 +88,8 @@ def update(id):
 #search Employee
 @app.route('/search',methods=['GET','POST'])
 def search():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     search=request.form['search']
     res=con.cursor(dictionary=True)
     sql = (
@@ -102,6 +106,8 @@ def search():
 
 @app.route('/add',methods=['GET','POST'])
 def add():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     if request.method=="POST":
         name=request.form['name']
         salary=request.form['salary']
@@ -125,6 +131,9 @@ def add():
 #Add Department
 @app.route('/add_Department',methods=['GET','POST'])
 def add_department():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
     if request.method=='POST':
         dept_name=request.form['dept_name']
         res=con.cursor(dictionary=True)
@@ -138,6 +147,8 @@ def add_department():
 #Delete Employee
 @app.route('/delete/<int:id>',methods=['GET','POST'])
 def delete(id):
+    if 'user' not in session:
+        return redirect(url_for(login))
     res=con.cursor(dictionary=True)
     sql="delete from employee where id=%s"
     value=(id,)
@@ -148,6 +159,8 @@ def delete(id):
 #Employees Page
 @app.route('/employees')
 def employees():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     res=con.cursor(dictionary=True)
     sql = sql = 'SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city ' \
       'FROM employee INNER JOIN department ' \
@@ -159,6 +172,8 @@ def employees():
 #department data
 @app.route('/department')
 def department():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     res=con.cursor(dictionary=True)
     sql='select * from department'
     res.execute(sql)
@@ -168,6 +183,8 @@ def department():
 #update Department
 @app.route('/update_department/<int:id>',methods=['GET','POST'])
 def update_department(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
     if request.method=="POST":
         dept_name=request.form['dept_name']
         res=con.cursor(dictionary=True)
@@ -187,6 +204,8 @@ def update_department(id):
 #delete Department
 @app.route('/delete_dept/<int:id>',methods=['GET','POST'])
 def delete_dept(id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
     try:
         res=con.cursor(dictionary=True)
         sql='delete from department where dept_id=%s'
@@ -204,6 +223,8 @@ def delete_dept(id):
     
 @app.route('/salary_report')
 def salary_report():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     res=con.cursor(dictionary=True)
     sql='select employee.id,name,dept_name,salary from employee' \
     ' inner join department on employee.dept_id=department.dept_id'
@@ -213,6 +234,8 @@ def salary_report():
 
 @app.route('/top_earners')
 def top_earners():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     res=con.cursor(dictionary=True)
     sql='select employee.id,name,dept_name,salary from employee inner join department on employee.dept_id = department.dept_id order by salary desc limit 5'
     res.execute(sql)
