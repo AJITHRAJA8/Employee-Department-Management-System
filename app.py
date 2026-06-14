@@ -47,11 +47,18 @@ def home():
     res.execute(sql)
     avg_salary=res.fetchone()
 
+    #High Salary
+    res=con.cursor(dictionary=True)
+    sql='select max(salary) as max_salary from employee'
+    res.execute(sql)
+    high_salary=res.fetchone()
+
     return render_template("home.html", 
                            datas=result,
                            employee_count=employee_count,
                            department_count=department_count,
-                           avg_salary=avg_salary)
+                           avg_salary=avg_salary,
+                           high_salary=high_salary)
 
 
 #Update EMployee Tabel
@@ -102,7 +109,7 @@ def search():
     value=('%' +search+ '%',)
     res.execute(sql,value)
     result=res.fetchall()   
-    return render_template("home.html",datas=result)
+    return render_template("employees.html",datas=result)
 
 @app.route('/add',methods=['GET','POST'])
 def add():
@@ -220,7 +227,8 @@ def delete_dept(id):
             window.location.href='/department';
         </script>
         """
-    
+
+#salary Report  
 @app.route('/salary_report')
 def salary_report():
     if 'user' not in session:
@@ -232,6 +240,7 @@ def salary_report():
     datas=res.fetchall()
     return render_template('salary_report.html',datas=datas)
 
+#top Earners
 @app.route('/top_earners')
 def top_earners():
     if 'user' not in session:

@@ -482,6 +482,14 @@ tr:nth-child(even){
     text-decoration:none;
     color:#3b82f6;
 }
+.bottom2{
+    text-decoration:none;
+    color:rgb(115, 4, 115)
+}
+.bottom3{
+    text-decoration:none;
+    color:orange
+}
 .table-box{
     background:white;
     padding:20px;

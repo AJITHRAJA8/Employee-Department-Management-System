@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="card-bottom">
-                        View salary report ➜
+                        <a href="{{url_for('salary_report')}}" class="bottom2">View salary report ➜</a>
                     </div>
                 </div>
 
@@ -124,12 +124,12 @@
 
                         <div>
                             <p>Highest Salary</p>
-                            <h2>₹1,20,000</h2>
+                            <h2>₹{{high_salary.max_salary}}</h2>
                         </div>
                     </div>
 
                     <div class="card-bottom">
-                        View top earners ➜
+                        <a href="{{url_for('top_earners')}}" class="bottom3">View top earners ➜</a>
                     </div>
                 </div>
                 <div class="employee-section">
