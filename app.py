@@ -1,6 +1,7 @@
 from flask import Flask,render_template,url_for,request,redirect,session
 import mysql.connector
 from mysql.connector import IntegrityError
+from werkzeug.security import generate_password_hash, check_password_hash
 
 #Getting File Name
 app=Flask(__name__)
@@ -258,11 +259,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
         res=con.cursor(dictionary=True)
-        sql='select * from login where username=%s and password=%s'
-        value=(username,password)
+        sql='select * from login where username=%s'
+        value=(username,)
         res.execute(sql,value)
         user = res.fetchone()
-        if user:
+
+        if user and check_password_hash(user['password'],password):
             session['user'] = username
             return redirect(url_for('home'))
         else:
@@ -279,9 +281,12 @@ def register_page():
 
         if password != confirm_password:
             return "Passwords do not match"
+        #hash password
+        hash_password = generate_password_hash(password)
+
         res=con.cursor(dictionary=True)
         sql='insert into login (username,password) values(%s,%s)'
-        value=(username,password)
+        value=(username,hash_password)
         try:
             res.execute(sql,value)
             con.commit()
