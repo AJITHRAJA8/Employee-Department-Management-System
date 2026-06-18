@@ -189,6 +189,10 @@ http://127.0.0.1:8000
 ![alt text](img/image-6.png)
 * search Function
 ![alt text](img/image-7.png)
+* Top Earn
+![alt text](<Img-10 (1).png>)
+* salary Report
+![alt text](<Img-10 (2).png>)
 
 ---
 
