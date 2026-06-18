@@ -170,7 +170,7 @@ def employees():
     if 'user' not in session:
         return redirect(url_for('login'))
     res=con.cursor(dictionary=True)
-    sql = sql = 'SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city ' \
+    sql = 'SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city ' \
       'FROM employee INNER JOIN department ' \
       'ON employee.dept_id = department.dept_id'
     res.execute(sql)
