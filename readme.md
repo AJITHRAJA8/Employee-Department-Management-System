@@ -70,7 +70,6 @@ Employee-Department-Management-System/
 │   ├── update.html
 │   ├── add_department.html
 │   └── update_dept.html
-│
 ├── app.py
 ├── requirements.txt
 └── README.md
