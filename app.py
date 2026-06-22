@@ -302,6 +302,10 @@ def logout():
     session.pop('user',None)
     return redirect(url_for('login'))
 
+#about Us
+#notification us
+#contact Us
+
 if(__name__)=="__main__":
     app.secret_key="Ajith@9751"
     app.run(debug=True,port=8000)
