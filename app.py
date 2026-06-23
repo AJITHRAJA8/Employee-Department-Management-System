@@ -306,7 +306,10 @@ def logout():
 @app.route('/about us')
 
 #notification us
+@app.route('/notification')
+
 #contact Us
+@app.route('/Contact')
 
 if(__name__)=="__main__":
     app.secret_key="Ajith@9751"
