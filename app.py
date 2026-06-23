@@ -303,6 +303,8 @@ def logout():
     return redirect(url_for('login'))
 
 #about Us
+@app.route('/about us')
+
 #notification us
 #contact Us
 
