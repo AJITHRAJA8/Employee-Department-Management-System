@@ -306,6 +306,8 @@ def logout():
 @app.route('/about us')
 def about_us():
     res = con.cursor(dictionary=True)
+    sql = 'select * from contact'
+    res.execute(sql)
 
 #notification us
 @app.route('/notification')
