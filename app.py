@@ -304,6 +304,8 @@ def logout():
 
 #about Us
 @app.route('/about us')
+def about_us():
+    res = con.cursor(dictionary=True)
 
 #notification us
 @app.route('/notification')
