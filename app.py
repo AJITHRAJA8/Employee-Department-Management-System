@@ -308,6 +308,8 @@ def about_us():
     res = con.cursor(dictionary=True)
     sql = 'select * from contact'
     res.execute(sql)
+    result=res.fetchall()
+    return render_template('Home.html',datas=result)
 
 #notification us
 @app.route('/notification')
