@@ -313,7 +313,8 @@ def about_us():
 
 #notification us
 @app.route('/notification')
-
+def notification():
+    res = 'select * from notification'
 #contact Us
 @app.route('/Contact')
 
