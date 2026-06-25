@@ -314,7 +314,7 @@ def about_us():
 #notification us
 @app.route('/notification')
 def notification():
-    res = 'select * from notification'
+    res = con.cursor(dictionary=True)
 #contact Us
 @app.route('/Contact')
 
