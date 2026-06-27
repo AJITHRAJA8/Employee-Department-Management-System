@@ -1,22 +1,25 @@
 from flask import Flask,render_template,url_for,request,redirect,session
 import mysql.connector
+import pyodbc
 from mysql.connector import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #Getting File Name
 app=Flask(__name__)
 
-#mysql connection
-con=mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="mangement"
-)
-if con.is_connected:
-    print("Connected Successfully")
-else:
-    print("Connection Fail")
+#Sql Server Connection
+try:
+    con = pyodbc.connect(
+        "DRIVER={ODBC Driver 18 for SQL Server};"
+        "SERVER=AJITH-RAJA\\SQLEXPRESS;"
+        "DATABASE=Python_DB;"
+        "UID=AJITHRAJA;"
+        "PWD=@Ajith@9751;"
+        "TrustServerCertificate=yes;"
+    )
+    print("Connection Successfull")
+except Exception as e:
+    print(e)
 
 #Dashboard
 @app.route('/home')
@@ -301,22 +304,6 @@ def register_page():
 def logout():
     session.pop('user',None)
     return redirect(url_for('login'))
-
-#about Us
-@app.route('/about us')
-def about_us():
-    res = con.cursor(dictionary=True)
-    sql = 'select * from contact'
-    res.execute(sql)
-    result=res.fetchall()
-    return render_template('Home.html',datas=result)
-
-#notification us
-@app.route('/notification')
-def notification():
-    res = con.cursor(dictionary=True)
-#contact Us
-@app.route('/Contact')
 
 if(__name__)=="__main__":
     app.secret_key="Ajith@9751"
