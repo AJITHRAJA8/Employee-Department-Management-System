@@ -799,3 +799,99 @@ tr:nth-child(even){
 .nav-right a:hover{
     color:#10b981;
 }
+.notification{
+
+    position:relative;
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+.notify-count{
+
+    background:#ef4444;
+
+    color:white;
+
+    padding:2px 8px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    margin-left:8px;
+
+}
+.notification-menu{
+    position:relative;
+}
+.notification-dropdown{
+
+    position:absolute;
+
+    top:45px;
+
+    right:0;
+
+    width:340px;
+
+    background:white;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+    display:none;
+
+    overflow:hidden;
+
+    z-index:999;
+
+}
+.notification-menu:hover .notification-dropdown{
+
+    display:block;
+
+}
+.notification-dropdown h3{
+
+    padding:15px;
+
+    background:#042f2e;
+
+    color:white;
+
+}
+.notification-item{
+
+    padding:15px;
+
+    border-bottom:1px solid #eee;
+
+    cursor:pointer;
+
+}
+.notification-item:hover{
+
+    background:#f3f4f6;
+
+}
+.notification-item p{
+
+    color:#222;
+
+    font-weight:600;
+
+    margin-bottom:5px;
+
+}
+.notification-item small{
+
+    color:#777;
+
+}

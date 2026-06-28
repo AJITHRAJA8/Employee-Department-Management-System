@@ -16,11 +16,33 @@
 
             <ul class="nav-right">
 
-                <li>
+                <li class="notification-menu">
+
                     <a href="#" class="notification">
                         🔔 Notifications
-                        <span class="notify-count">{{notification_count.Total_notification}}</span>
+                        <span class="notify-count">
+                            {{ notification_count.Total_notification }}
+                        </span>
                     </a>
+
+                    <div class="notification-dropdown">
+
+                        <h3>Notifications</h3>
+
+                        {% for notification in notifications %}
+
+                        <div class="notification-item">
+
+                            <p>{{ notification.message }}</p>
+
+                            <small>{{ notification.created_at }}</small>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
                 </li>
 
                 <li>

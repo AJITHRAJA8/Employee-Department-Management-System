@@ -12,7 +12,7 @@ try:
     con = pyodbc.connect(
         "DRIVER={ODBC Driver 18 for SQL Server};"
         "SERVER=AJITH-RAJA\\SQLEXPRESS;"
-        "DATABASE=Python_DB;"
+        "DATABASE=Python_DB;"   
         "UID=AJITHRAJA;"
         "PWD=@Ajith@9751;"
         "TrustServerCertificate=yes;"
@@ -39,15 +39,17 @@ def fetch_one_dict(cursor):
     return dict(zip(columns,row))
 
 # Helper function for insert notication
-res = con.cursor()
+# Helper function for insert notification
+def add_notification(message):
 
-sql = "INSERT INTO notifications(message) VALUES (?)"
-
-value = ("Employee Added",)
-
-res.execute(sql, value)
-
-con.commit()
+    res = con.cursor()
+    sql = """
+    INSERT INTO notifications(message)
+    VALUES (?)
+    """
+    value = (message,)
+    res.execute(sql, value)
+    con.commit()
 
 #Dashboard
 @app.route('/home')
@@ -76,10 +78,24 @@ def home():
     
     #Notification
     res = con.cursor()
-    sql='select count(*) as Total_notification from notification' \
+    sql='select count(*) as Total_notification from notifications' \
     ' where is_read = 0'
-    res.execute(res)
+    res.execute(sql)
     notification_count = fetch_one_dict(res)
+
+    # Latest Notifications
+    res = con.cursor()
+    sql="""
+    SELECT TOP 5
+    notification_id,
+    message,
+    created_at,
+    is_read
+    FROM notifications
+    ORDER BY created_at DESC
+    """
+    res.execute(sql)
+    notifications = fetch_all_dict (res)
 
     #Dashboard Table
     res=con.cursor()
@@ -130,7 +146,8 @@ def home():
                            department_count=department_count,
                            avg_salary=avg_salary,
                            notification_count=notification_count,
-                           high_salary=high_salary)
+                           high_salary=high_salary,
+                           notifications=notifications)
 
 
 #Update EMployee Tabel
@@ -231,17 +248,27 @@ def add_department():
     return render_template('add_department.html')
 
 #Delete Employee
-@app.route('/delete/<int:id>',methods=['GET','POST'])
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
+
     if 'user' not in session:
         return redirect(url_for('login'))
-    
-    res=con.cursor()
-    sql="delete from employee where id=?"
-    value=(id,)
-    res.execute(sql,value)
+
+    res = con.cursor()
+
+    # Get employee name
+    sql = "SELECT name FROM employee WHERE id=?"
+    res.execute(sql, (id,))
+    employee = fetch_one_dict(res)
+
+    # Delete employee
+    sql = "DELETE FROM employee WHERE id=?"
+    res.execute(sql, (id,))
     con.commit()
+
+    # Notification
     add_notification(f"🗑 Employee '{employee['name']}' deleted.")
+
     return redirect(url_for('home'))
 
 #Employees Page
@@ -399,11 +426,8 @@ def register_page():
 #logout page     
 @app.route('/logout')
 def logout():
-
     uid = session['user']
-
     res = con.cursor()
-
     sql = """
     UPDATE login
     SET
@@ -411,15 +435,10 @@ def logout():
         last_logout = GETDATE()
     WHERE username = ?
     """
-
     value = (uid,)
-
     res.execute(sql, value)
-
     con.commit()
-
     session.pop('user', None)
-
     return redirect(url_for('login'))
 
 
