@@ -1,5 +1,4 @@
 from flask import Flask,render_template,url_for,request,redirect,session
-import mysql.connector
 import pyodbc
 from mysql.connector import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,12 +20,30 @@ try:
 except Exception as e:
     print(e)
 
+#Helper Function
+# Fetch all rows as dictionaries
+def fetch_all_dict(cursor):
+    columns = [column[0] for column in cursor.discription]
+    rows = cursor.fetchall()
+    return[dict(zip(columns,rows)) for row in rows]
+
+## Fetch one row as a dictionary
+def fetch_one_dict(cursor):
+    columns = [column[0] for column in cursor.discription]
+    row = cursor.fetchone()
+
+    if row is None:
+        return None
+    
+    return dict(zip(colums,row))
+
 #Dashboard
 @app.route('/home')
 def home():
     if 'user' not in session:
         return redirect(url_for('login'))
     
+    #Dashboard Table
     res=con.cursor(dictionary=True)
     sql="select employee.id,name,dept_name,salary,city from employee inner join department on employee.dept_id=department.dept_id"
     res.execute(sql)
