@@ -33,4 +33,15 @@ try:
 except Exception as e:
     print(e)
 
-def
+def fetch_all_dict(cursor):
+    columns = [column[0] for column in cursor.discription]
+    rows = cursor.fetchall()
+    return [dict(zip(columns,row))for row in rows]
+
+def fetch_one_dict(cursor):
+    columns = [column[0] for column in cursor.discription]
+    row = cursor.fetchone()
+
+    if row is None:
+        return None
+    return dict(zip(columns,row))

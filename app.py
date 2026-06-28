@@ -1,6 +1,5 @@
 from flask import Flask,render_template,url_for,request,redirect,session
 import pyodbc
-from mysql.connector import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #Getting File Name
@@ -23,19 +22,19 @@ except Exception as e:
 #Helper Function
 # Fetch all rows as dictionaries
 def fetch_all_dict(cursor):
-    columns = [column[0] for column in cursor.discription]
+    columns = [column[0] for column in cursor.description]
     rows = cursor.fetchall()
-    return[dict(zip(columns,rows)) for row in rows]
+    return[dict(zip(columns,row)) for row in rows]
 
 ## Fetch one row as a dictionary
 def fetch_one_dict(cursor):
-    columns = [column[0] for column in cursor.discription]
+    columns = [column[0] for column in cursor.description]
     row = cursor.fetchone()
 
     if row is None:
         return None
     
-    return dict(zip(colums,row))
+    return dict(zip(columns,row))
 
 #Dashboard
 @app.route('/home')
@@ -44,35 +43,37 @@ def home():
         return redirect(url_for('login'))
     
     #Dashboard Table
-    res=con.cursor(dictionary=True)
-    sql="select employee.id,name,dept_name,salary,city from employee inner join department on employee.dept_id=department.dept_id"
+    res=con.cursor()
+    sql="select e.id,e.name,d.dept_name,e.salary,e.city from employee as e" \
+    " inner join department as d " \
+    " on e.dept_id=d.dept_id"
     res.execute(sql)
-    result=res.fetchall()
+    result=fetch_all_dict(res)
 
     #employee count
-    res=con.cursor(dictionary=True)
+    res=con.cursor()
     sql='select count(*) as total_employee from employee'
     res.execute(sql)
-    employee_count = res.fetchone()
+    employee_count = fetch_one_dict(res)
 
 
     #department count
-    res=con.cursor(dictionary=True)
+    res=con.cursor()
     sql='select count(*) as total_department from department'
     res.execute(sql)
-    department_count=res.fetchone()
+    department_count=fetch_one_dict(res)
 
     #Avg Salary of Employee
-    res=con.cursor(dictionary=True)
+    res=con.cursor()
     sql='select round(avg(salary),2) as avg_count from employee'
     res.execute(sql)
-    avg_salary=res.fetchone()
+    avg_salary=fetch_one_dict(res)
 
     #High Salary
-    res=con.cursor(dictionary=True)
+    res=con.cursor()
     sql='select max(salary) as max_salary from employee'
     res.execute(sql)
-    high_salary=res.fetchone()
+    high_salary=fetch_one_dict(res)
 
     return render_template("home.html", 
                            datas=result,
@@ -87,30 +88,32 @@ def home():
 def update(id):
     if 'user' not in session:
         return redirect(url_for('login'))
-    res=con.cursor(dictionary=True)
+    
+    res=con.cursor()
     if request.method=='POST':
-        name=request.form['name']
-        salary=request.form['salary']
-        city=request.form['city']
-        dept_id=request.form['dept_id']
+        employee_name=request.form['name']
+        employee_salary=request.form['salary']
+        employee_city=request.form['city']
+        department_id=request.form['dept_id']
 
-        sql='update employee set name=%s,salary=%s,city=%s,dept_id=%s where id=%s'
-        value=(name,salary,city,dept_id,id)
+        sql='update employee set name=?,salary=?,city=?,dept_id=? where id=?'
+        value=(employee_name,employee_salary,employee_city,department_id,id)
         res.execute(sql,value)
         con.commit()
         return redirect(url_for('home'))
     # Employee Detials
-    sql='select * from employee where id=%s'
+    sql='select * from employee where id=?'
     value=(id,)
     res.execute(sql,value)
-    employee=res.fetchone()
+    employees=fetch_one_dict(res)
+
     #All Departments
     res.execute('select * from department')
-    departments=res.fetchall()
+    department=fetch_all_dict(res)
     return render_template(
             "update.html",
-            employee=employee,
-            departments=departments
+            employee=employees,
+            departments=department
         )
 
 #search Employee
@@ -119,41 +122,43 @@ def search():
     if 'user' not in session:
         return redirect(url_for('login'))
     search=request.form['search']
-    res=con.cursor(dictionary=True)
+    res=con.cursor()
     sql = (
         "SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city "
         "FROM employee "
         "INNER JOIN department "
         "ON employee.dept_id = department.dept_id "
-        "WHERE employee.name LIKE %s"
+        "WHERE employee.name LIKE ?"
     )
     value=('%' +search+ '%',)
     res.execute(sql,value)
-    result=res.fetchall()   
+    result=fetch_all_dict(res)
     return render_template("employees.html",datas=result)
 
+#Add Employee
 @app.route('/add',methods=['GET','POST'])
 def add():
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     if request.method=="POST":
-        name=request.form['name']
-        salary=request.form['salary']
-        city=request.form['city']
-        dept_id=request.form['dept_id']
-        res=con.cursor(dictionary=True)
+        em_name=request.form['name']
+        em_salary=request.form['salary']
+        em_city=request.form['city']
+        em_dept_id=request.form['dept_id']
+        res=con.cursor()
         sql='insert into employee (name,salary,city,dept_id)' \
-            'values (%s,%s,%s,%s)'
-        value=(name,salary,city,dept_id)
+            'values (?,?,?,?)'
+        value=(em_name,em_salary,em_city,em_dept_id)
         res.execute(sql,value)
         con.commit()
         return redirect(url_for('home'))
     
     #Select Department
-    res=con.cursor(dictionary=True)
+    res=con.cursor()
     sql='select * from department'
     res.execute(sql)
-    result=res.fetchall()
+    result=fetch_all_dict(res)
     return render_template('add.html',departments=result)
 
 #Add Department
@@ -163,10 +168,10 @@ def add_department():
         return redirect(url_for('login'))
     
     if request.method=='POST':
-        dept_name=request.form['dept_name']
-        res=con.cursor(dictionary=True)
-        sql="insert into department (dept_name) values (%s)"
-        value=(dept_name,)
+        department_name=request.form['dept_name']
+        res=con.cursor()
+        sql="insert into department (dept_name) values (?)"
+        value=(department_name,)
         res.execute(sql,value)
         con.commit()
         return redirect (url_for('department'))
@@ -176,9 +181,10 @@ def add_department():
 @app.route('/delete/<int:id>',methods=['GET','POST'])
 def delete(id):
     if 'user' not in session:
-        return redirect(url_for(login))
-    res=con.cursor(dictionary=True)
-    sql="delete from employee where id=%s"
+        return redirect(url_for('login'))
+    
+    res=con.cursor()
+    sql="delete from employee where id=?"
     value=(id,)
     res.execute(sql,value)
     con.commit()
@@ -189,12 +195,13 @@ def delete(id):
 def employees():
     if 'user' not in session:
         return redirect(url_for('login'))
-    res=con.cursor(dictionary=True)
+    
+    res=con.cursor()
     sql = 'SELECT employee.id, employee.name, department.dept_name, employee.salary, employee.city ' \
       'FROM employee INNER JOIN department ' \
       'ON employee.dept_id = department.dept_id'
     res.execute(sql)
-    result=res.fetchall()
+    result=fetch_all_dict(res)
     return render_template('employees.html',datas=result)
 
 #department data
@@ -202,10 +209,11 @@ def employees():
 def department():
     if 'user' not in session:
         return redirect(url_for('login'))
-    res=con.cursor(dictionary=True)
+    
+    res=con.cursor()
     sql='select * from department'
     res.execute(sql)
-    result=res.fetchall()
+    result=fetch_all_dict(res)
     return render_template('department.html',datas=result)
 
 #update Department
@@ -213,20 +221,22 @@ def department():
 def update_department(id):
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     if request.method=="POST":
-        dept_name=request.form['dept_name']
-        res=con.cursor(dictionary=True)
-        sql='update department set dept_name=%s where dept_id=%s'
-        value=(dept_name,id)
+        department_name=request.form['dept_name']
+
+        res=con.cursor()
+        sql='update department set dept_name=? where dept_id=?'
+        value=(department_name,id)
         res.execute(sql,value)
         con.commit()
         return redirect(url_for('department'))
     
-    res=con.cursor(dictionary=True)
-    sql="select * from department where dept_id=%s"
+    res=con.cursor()
+    sql="select * from department where dept_id=?"
     value=(id,)
     res.execute(sql,value)
-    result=res.fetchone()
+    result=fetch_one_dict(res)
     return render_template('update_dept.html',data=result)
 
 #delete Department
@@ -235,8 +245,8 @@ def delete_dept(id):
     if 'user' not in session:
         return redirect(url_for('login'))
     try:
-        res=con.cursor(dictionary=True)
-        sql='delete from department where dept_id=%s'
+        res=con.cursor()
+        sql='delete from department where dept_id=?'
         value=(id,)
         res.execute(sql,value)
         con.commit()
@@ -254,11 +264,12 @@ def delete_dept(id):
 def salary_report():
     if 'user' not in session:
         return redirect(url_for('login'))
-    res=con.cursor(dictionary=True)
+    
+    res=con.cursor()
     sql='select employee.id,name,dept_name,salary from employee' \
     ' inner join department on employee.dept_id=department.dept_id'
     res.execute(sql)
-    datas=res.fetchall()
+    datas=fetch_all_dict(res)
     return render_template('salary_report.html',datas=datas)
 
 #top Earners
@@ -266,26 +277,27 @@ def salary_report():
 def top_earners():
     if 'user' not in session:
         return redirect(url_for('login'))
-    res=con.cursor(dictionary=True)
-    sql='select employee.id,name,dept_name,salary from employee inner join department on employee.dept_id = department.dept_id order by salary desc limit 5'
+    
+    res=con.cursor()
+    sql='select top 5 employee.id,name,dept_name,salary from employee inner join department on employee.dept_id = department.dept_id order by salary desc'
     res.execute(sql)
-    datas=res.fetchall()
+    datas=fetch_all_dict(res)
     return render_template('top_earners.html',datas=datas)
 
 #LogIn Page
 @app.route('/',methods=['GET','POST'])
 def login():
     if request.method=="POST":
-        username = request.form['username']
-        password = request.form['password']
-        res=con.cursor(dictionary=True)
-        sql='select * from login where username=%s'
-        value=(username,)
+        uid = request.form['username']
+        pwd = request.form['password']
+        res=con.cursor()
+        sql='select * from login where username=?'
+        value=(uid,)
         res.execute(sql,value)
-        user = res.fetchone()
+        user = fetch_one_dict(res)
 
-        if user and check_password_hash(user['password'],password):
-            session['user'] = username
+        if user and check_password_hash(user['password'],pwd):
+            session['user'] = uid
             return redirect(url_for('home'))
         else:
             return "Invalid Username or Password"
@@ -295,25 +307,26 @@ def login():
 @app.route('/resister_page',methods=['GET','POST'])
 def register_page():
     if request.method=='POST':
-        username=request.form['username']
-        password=request.form['password']
-        confirm_password=request.form['confirm_password']
+        uid=request.form['username']
+        pwd=request.form['password']
+        confirm_pwd=request.form['confirm_password']
 
-        if password != confirm_password:
+        if pwd != confirm_pwd:
             return "Passwords do not match"
         #hash password
-        hash_password = generate_password_hash(password)
+        hash_password = generate_password_hash(pwd)
 
-        res=con.cursor(dictionary=True)
-        sql='insert into login (username,password) values(%s,%s)'
-        value=(username,hash_password)
+        res=con.cursor()
+        sql='insert into login (username,password) values(?,?)'
+        value=(uid,hash_password)
         try:
             res.execute(sql,value)
             con.commit()
 
             return redirect(url_for('login'))
-        except:
-            return "user name already exists"
+        except Exception as e:
+            print(e)
+            return str(e)
     return render_template('register.html')
 
 #logout page     
