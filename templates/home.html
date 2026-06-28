@@ -46,7 +46,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ url_for('logout') }}" class="logout">
+                    <a href="{{ url_for('auth.logout') }}" class="logout">
                         🚪 Logout
                     </a>
                 </li>
@@ -70,20 +70,20 @@
             <div class="menu">
 
                 <p class="title">MAIN</p>
-                <a href="{{url_for('home')}}">🏠 Dashboard</a>
+                <a href="{{url_for('dashboard.home')}}">🏠 Dashboard</a>
 
                 <p class="title">EMPLOYEE</p>
-                <a href="{{url_for('employees')}}">👨‍💼 Employees</a>
-                <a href="{{url_for('add')}}">➕ Add Employee</a>
+                <a href="{{url_for('employee.employees')}}">👨‍💼 Employees</a>
+                <a href="{{url_for('employee.add')}}">➕ Add Employee</a>
 
                 <p class="title">DEPARTMENT</p>
-                <a href="{{url_for('department')}}">🏛️ Departments</a>
-                <a href="{{url_for('add_department')}}">📋 Add Department</a>
+                <a href="{{url_for('department.department')}}">🏛️ Departments</a>
+                <a href="{{url_for('department.add_department')}}">📋 Add Department</a>
 
                 <p class="title">REPORTS</p>
 
-                <a href="{{url_for('salary_report')}}">💰 Salary Report</a>
-                <a href="{{url_for('top_earners')}}">🏆 Top Earners</a>
+                <a href="{{url_for('reports.salary_report')}}">💰 Salary Report</a>
+                <a href="{{url_for('reports.top_earners')}}">🏆 Top Earners</a>
 
                 <hr class="sidebar-divider">
 
@@ -138,7 +138,7 @@
 
                 </div>
                 <p>Logout</p>
-                <a href="{{ url_for('logout') }}" class="logout">
+                <a href="{{ url_for('auth.logout') }}" class="logout">
                 🚪 Logout
                 </a>
 
@@ -171,7 +171,7 @@
                     </div>
  
                     <div class="card-bottom">
-                        <a href="{{url_for('employees')}}" class="bottom">View all employees ➜</a>
+                        <a href="{{url_for('employee.employees')}}" class="bottom">View all employees ➜</a>
                     </div>
                 </div>
 
@@ -189,7 +189,7 @@
                     </div>
 
                     <div class="card-bottom">
-                        <a href="{{url_for('department')}}" class="bottom1">View all departments ➜</a>
+                        <a href="{{url_for('department.department')}}" class="bottom1">View all departments ➜</a>
                     </div>
                 </div>
 
@@ -205,7 +205,7 @@
                     </div>
 
                     <div class="card-bottom">
-                        <a href="{{url_for('salary_report')}}" class="bottom2">View salary report ➜</a>
+                        <a href="{{url_for('reports.salary_report')}}" class="bottom2">View salary report ➜</a>
                     </div>
                 </div>
 
@@ -221,7 +221,7 @@
                     </div>
 
                     <div class="card-bottom">
-                        <a href="{{url_for('top_earners')}}" class="bottom3">View top earners ➜</a>
+                        <a href="{{url_for('reports.top_earners')}}" class="bottom3">View top earners ➜</a>
                     </div>
                 </div>
                 <div class="employee-section">
@@ -231,7 +231,7 @@
                             <p>Manage all employees</p>
                         </div>
                         <div class="employee-actions">
-                            <a class="add-employee-btn" href="{{ url_for('add') }}">
+                            <a class="add-employee-btn" href="{{ url_for('employee.add') }}">
                                 ➕ Add Employee
                             </a>
                             <form action="/search" method="POST" class="search-form">
@@ -267,8 +267,8 @@
                                 <td>{{data.salary}}</td>
                                 <td>{{data.city}}</td>
                                 <td>
-                                    <a class="edit-btn" href="{{ url_for('update', id=data.id) }}">✏ Edit</a>
-                                    <a class="delete-btn" href="{{url_for('delete',id=data.id)}}">🗑 Delete</a>
+                                    <a class="edit-btn" href="{{ url_for('employee.update', id=data.id) }}">✏ Edit</a>
+                                    <a class="delete-btn" href="{{url_for('employee.delete',id=data.id)}}">🗑 Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -277,7 +277,7 @@
                     <div class="pagination">
 
                         {% if page > 1 %}
-                            <a href="{{ url_for('home', page=page-1) }}" class="page-btn">
+                            <a href="{{ url_for('dashboard.home', page=page-1) }}" class="page-btn">
                              Previous
                                 </a>
                         {% endif %}
@@ -292,7 +292,7 @@
 
                              {% else %}
 
-                                <a href="{{ url_for('home', page=p) }}" class="page-btn">
+                                <a href="{{ url_for('dashboard.home', page=p) }}" class="page-btn">
                                  {{ p }}
                                 </a>
 
@@ -301,7 +301,7 @@
                         {% endfor %}
 
                         {% if page < total_pages %}
-                            <a href="{{ url_for('home', page=page+1) }}" class="page-btn">
+                            <a href="{{ url_for('dashboard.home', page=page+1) }}" class="page-btn">
                                 Next
                              </a>
                         {% endif %}

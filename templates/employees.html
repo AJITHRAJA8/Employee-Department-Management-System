@@ -1,21 +1,44 @@
-<!DOCTYPE HTML>
-
+<!DOCTYPE html>
 <html>
-
 <head>
     <title>Employees Management</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+
 <!-- Navbar -->
 <div class="one">
     <h1>👨🏻‍💻 Employee & Department Management System</h1>
-    <ul>
-        <li>🔔 Notifications</li>
-        <li>ℹ️ About Us</li>
-        <li>📞 Contact Us</li>
-    </ul>
+
+    <div class="navbar-user">
+        <ul class="nav-right">
+
+            <li class="notification-menu">
+                <a href="#" class="notification">
+                    🔔 Notifications
+                    <span class="notify-count">
+                        {{ notification_count.Total_notification }}
+                    </span>
+                </a>
+                <div class="notification-dropdown">
+                    <h3>Notifications</h3>
+                    {% for notification in notifications %}
+                    <div class="notification-item">
+                        <p>{{ notification.message }}</p>
+                        <small>{{ notification.created_at }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li>
+                <a href="{{ url_for('auth.logout') }}" class="logout">
+                    🚪 Logout
+                </a>
+            </li>
+
+        </ul>
+    </div>
 </div>
 
 <!-- Main Container -->
@@ -32,27 +55,24 @@
         <div class="menu">
 
             <p class="title">MAIN</p>
-            <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+            <a href="{{ url_for('dashboard.home') }}">🏠 Dashboard</a>
 
             <p class="title">EMPLOYEE</p>
-            <a href="{{ url_for('employees') }}">👨‍💼 Employees</a>
-            <a href="{{ url_for('add') }}">➕ Add Employee</a>
+            <a href="{{ url_for('employee.employees') }}">👨‍💼 Employees</a>
+            <a href="{{ url_for('employee.add') }}">➕ Add Employee</a>
 
             <p class="title">DEPARTMENT</p>
-            <a href="{{url_for('department')}}">🏛️ Departments</a>
-            <a href="{{ url_for('add_department') }}">📋 Add Department</a>
+            <a href="{{ url_for('department.department') }}">🏛️ Departments</a>
+            <a href="{{ url_for('department.add_department') }}">📋 Add Department</a>
 
             <p class="title">REPORTS</p>
-
-            <a href="{{ url_for('salary_report') }}">💰 Salary Report</a>
-            <a href="{{ url_for('top_earners') }}">🏆 Top Earners</a>
+            <a href="{{ url_for('reports.salary_report') }}">💰 Salary Report</a>
+            <a href="{{ url_for('reports.top_earners') }}">🏆 Top Earners</a>
 
             <p class="title">ACCOUNT</p>
-
-            <a href="{{url_for('logout')}}">🚪 Logout</a>
+            <a href="{{ url_for('auth.logout') }}">🚪 Logout</a>
 
         </div>
-
     </div>
 
     <!-- Content Area -->
@@ -65,28 +85,21 @@
 
         <!-- Search Section -->
         <div class="search-section">
-
-            <form action="{{ url_for('search') }}" method="POST">
-
+            <form action="{{ url_for('employee.search') }}" method="POST">
                 <input
                     type="text"
                     name="search"
                     placeholder="Search employee..."
                     class="search-box">
-
                 <button type="submit" class="search-btn">
                     🔍 Search
                 </button>
-
             </form>
-
         </div>
 
         <!-- Employee Table -->
         <div class="table-box">
-
             <table>
-
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
@@ -95,45 +108,51 @@
                     <th>City</th>
                     <th>Action</th>
                 </tr>
-
                 {% for data in datas %}
-
                 <tr>
-
                     <td>{{ data.id }}</td>
                     <td>{{ data.name }}</td>
                     <td>{{ data.dept_name }}</td>
                     <td>₹{{ data.salary }}</td>
                     <td>{{ data.city }}</td>
-
                     <td>
-
-                        <a class="edit-btn"
-                           href="{{ url_for('update', id=data.id) }}">
-                            ✏ Edit
-                        </a>
-
-                        <a class="delete-btn"
-                           href="{{ url_for('delete', id=data.id) }}">
-                            🗑 Delete
-                        </a>
-
+                        <a class="edit-btn" href="{{ url_for('employee.update', id=data.id) }}">✏ Edit</a>
+                        <a class="delete-btn" href="{{ url_for('employee.delete', id=data.id) }}">🗑 Delete</a>
                     </td>
-
                 </tr>
+                {% endfor %}
+            </table>
 
+            <!-- Pagination -->
+            <div class="pagination">
+
+                {% if page > 1 %}
+                <a href="{{ url_for('employee.employees', page=page-1) }}" class="page-btn">
+                    Previous
+                </a>
+                {% endif %}
+
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page %}
+                        <span class="page-btn active">{{ p }}</span>
+                    {% else %}
+                        <a href="{{ url_for('employee.employees', page=p) }}" class="page-btn">{{ p }}</a>
+                    {% endif %}
                 {% endfor %}
 
-            </table>
-            
+                {% if page < total_pages %}
+                <a href="{{ url_for('employee.employees', page=page+1) }}" class="page-btn">
+                    Next
+                </a>
+                {% endif %}
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
-```
 
 </body>
-
 </html>

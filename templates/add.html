@@ -2,18 +2,43 @@
 <html>
     <head>
         <title>Add Employee</title>
-        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
+
     <!-- Navbar -->
     <div class="one">
         <h1>👨🏻‍💻 Employee & Department Management System</h1>
 
-        <ul>
-            <li>🔔 Notifications</li>
-            <li>ℹ️ About Us</li>
-            <li>📞 Contact Us</li>
-        </ul>
+        <div class="navbar-user">
+            <ul class="nav-right">
+
+                <li class="notification-menu">
+                    <a href="#" class="notification">
+                        🔔 Notifications
+                        <span class="notify-count">
+                            {{ notification_count.Total_notification }}
+                        </span>
+                    </a>
+                    <div class="notification-dropdown">
+                        <h3>Notifications</h3>
+                        {% for notification in notifications %}
+                        <div class="notification-item">
+                            <p>{{ notification.message }}</p>
+                            <small>{{ notification.created_at }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('auth.logout') }}" class="logout">
+                        🚪 Logout
+                    </a>
+                </li>
+
+            </ul>
+        </div>
     </div>
 
     <!-- Main Container -->
@@ -30,32 +55,28 @@
             <div class="menu">
 
                 <p class="title">MAIN</p>
-                <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+                <a href="{{ url_for('dashboard.home') }}">🏠 Dashboard</a>
 
                 <p class="title">EMPLOYEE</p>
-                <a href="{{ url_for('employees') }}">👨‍💼 Employees</a>
-                <a href="{{ url_for('add') }}">➕ Add Employee</a>
+                <a href="{{ url_for('employee.employees') }}">👨‍💼 Employees</a>
+                <a href="{{ url_for('employee.add') }}">➕ Add Employee</a>
 
                 <p class="title">DEPARTMENT</p>
-                <a href="{{url_for('department')}}">🏛️ Departments</a>
-                <a href="{{ url_for('add_department') }}">📋 Add Department</a>
+                <a href="{{ url_for('department.department') }}">🏛️ Departments</a>
+                <a href="{{ url_for('department.add_department') }}">📋 Add Department</a>
 
                 <p class="title">REPORTS</p>
-
-                <a href="{{ url_for('salary_report') }}">💰 Salary Report</a>
-                <a href="{{ url_for('top_earners') }}">🏆 Top Earners</a>
+                <a href="{{ url_for('reports.salary_report') }}">💰 Salary Report</a>
+                <a href="{{ url_for('reports.top_earners') }}">🏆 Top Earners</a>
 
                 <p class="title">ACCOUNT</p>
-
-                <a href="{{url_for('logout')}}">🚪 Logout</a>
+                <a href="{{ url_for('auth.logout') }}">🚪 Logout</a>
 
             </div>
-
         </div>
 
         <!-- Form Area -->
         <div class="content">
-
             <div class="update-container">
 
                 <h1>➕ Add Employee</h1>
@@ -63,49 +84,32 @@
                 <form action="/add" method="POST">
 
                     <label>Name</label>
-                    <input type="text"
-                        name="name"
-                        required>
+                    <input type="text" name="name" required>
 
                     <label>Department</label>
-
                     <select name="dept_id">
-
                         {% for dept in departments %}
-
                         <option value="{{ dept.dept_id }}">
                             {{ dept.dept_name }}
                         </option>
-
                         {% endfor %}
-
                     </select>
 
                     <label>Salary</label>
-
-                    <input type="number"
-                        name="salary"
-                        required>
+                    <input type="number" name="salary" required>
 
                     <label>City</label>
+                    <input type="text" name="city" required>
 
-                    <input type="text"
-                        name="city"
-                        required>
-
-                    <button type="submit"
-                            class="update-btn">
+                    <button type="submit" class="update-btn">
                         Add Employee
                     </button>
 
                 </form>
-
             </div>
-
         </div>
 
     </div>
-    ```
 
     </body>
 </html>

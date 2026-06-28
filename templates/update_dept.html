@@ -1,23 +1,44 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-    <title>Add Department</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <title>Update Department</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+
 <!-- Navbar -->
 <div class="one">
     <h1>👨🏻‍💻 Employee & Department Management System</h1>
 
-    <ul>
-        <li>🔔 Notifications</li>
-        <li>ℹ️ About Us</li>
-        <li>📞 Contact Us</li>
-    </ul>
+    <div class="navbar-user">
+        <ul class="nav-right">
+
+            <li class="notification-menu">
+                <a href="#" class="notification">
+                    🔔 Notifications
+                    <span class="notify-count">
+                        {{ notification_count.Total_notification }}
+                    </span>
+                </a>
+                <div class="notification-dropdown">
+                    <h3>Notifications</h3>
+                    {% for notification in notifications %}
+                    <div class="notification-item">
+                        <p>{{ notification.message }}</p>
+                        <small>{{ notification.created_at }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </li>
+
+            <li>
+                <a href="{{ url_for('auth.logout') }}" class="logout">
+                    🚪 Logout
+                </a>
+            </li>
+
+        </ul>
+    </div>
 </div>
 
 <!-- Main Container -->
@@ -34,32 +55,28 @@
         <div class="menu">
 
             <p class="title">MAIN</p>
-            <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+            <a href="{{ url_for('dashboard.home') }}">🏠 Dashboard</a>
 
             <p class="title">EMPLOYEE</p>
-            <a href="{{ url_for('employees') }}">👨‍💼 Employees</a>
-            <a href="{{ url_for('add') }}">➕ Add Employee</a>
+            <a href="{{ url_for('employee.employees') }}">👨‍💼 Employees</a>
+            <a href="{{ url_for('employee.add') }}">➕ Add Employee</a>
 
             <p class="title">DEPARTMENT</p>
-            <a href="{{ url_for('department')}}">🏛️ Departments</a>
-            <a href="{{ url_for('add_department') }}">📋 Add Department</a>
+            <a href="{{ url_for('department.department') }}">🏛️ Departments</a>
+            <a href="{{ url_for('department.add_department') }}">📋 Add Department</a>
 
             <p class="title">REPORTS</p>
-
-            <a href="{{ url_for('salary_report') }}">💰 Salary Report</a>
-            <a href="{{ url_for('top_earners') }}">🏆 Top Earners</a>
+            <a href="{{ url_for('reports.salary_report') }}">💰 Salary Report</a>
+            <a href="{{ url_for('reports.top_earners') }}">🏆 Top Earners</a>
 
             <p class="title">ACCOUNT</p>
-
-            <a href="{{url_for('logout')}}">🚪 Logout</a>
+            <a href="{{ url_for('auth.logout') }}">🚪 Logout</a>
 
         </div>
-
     </div>
 
     <!-- Content -->
     <div class="content">
-
         <div class="update-container">
 
             <h1>📋 Update Department</h1>
@@ -67,26 +84,21 @@
             <form action="" method="POST">
 
                 <label>Department Name</label>
-                    <input
-                        type="text"
-                        name="dept_name"
-                        value="{{ data.dept_name }}"
-                        required>
+                <input
+                    type="text"
+                    name="dept_name"
+                    value="{{ data.dept_name }}"
+                    required>
 
-                <button type="submit"
-                        class="update-btn">
-                    update Department
+                <button type="submit" class="update-btn">
+                    Update Department
                 </button>
 
             </form>
-
         </div>
-
     </div>
 
 </div>
-```
 
 </body>
-
 </html>

@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Register Page</title>
-        <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <div class="login-container">
@@ -12,14 +12,14 @@
                 <input type="text" name="username" required>
                 <label>Password</label>
                 <input type="password" name="password" required>
-                <label>confirm Password</label>
+                <label>Confirm Password</label>
                 <input type="password" name="confirm_password" required>
-                <button type="sumbit" class="login-btn">Register Page</button> 
+                <button type="submit" class="login-btn">Register</button>
             </form>
             <p style="text-align:center;margin-top:15px;">
                 Already have an account?
-                <a href="{{ url_for('login') }}">Login</a>
-             </p>
+                <a href="{{ url_for('auth.login') }}">Login</a>
+            </p>
         </div>
     </body>
 </html>
