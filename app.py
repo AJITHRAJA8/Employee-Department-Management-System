@@ -1,5 +1,6 @@
 from flask import Flask,render_template,url_for,request,redirect,session
 import pyodbc
+from datetime import datetime
 import math
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -37,11 +38,23 @@ def fetch_one_dict(cursor):
     
     return dict(zip(columns,row))
 
+# Helper function for insert notication
+res = con.cursor()
+
+sql = "INSERT INTO notifications(message) VALUES (?)"
+
+value = ("Employee Added",)
+
+res.execute(sql, value)
+
+con.commit()
+
 #Dashboard
 @app.route('/home')
 def home():
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     
     #NavBar
     username = session['user']
@@ -58,9 +71,16 @@ def home():
     
     #pagination
     page = request.args.get('page',1,type=int)
-    per_page = 5
+    per_page = 10
     offset = (page - 1)*per_page
     
+    #Notification
+    res = con.cursor()
+    sql='select count(*) as Total_notification from notification' \
+    ' where is_read = 0'
+    res.execute(res)
+    notification_count = fetch_one_dict(res)
+
     #Dashboard Table
     res=con.cursor()
     sql="select e.id,e.name,d.dept_name,e.salary,e.city from employee as e" \
@@ -109,6 +129,7 @@ def home():
                            employee_count=employee_count,
                            department_count=department_count,
                            avg_salary=avg_salary,
+                           notification_count=notification_count,
                            high_salary=high_salary)
 
 
@@ -129,6 +150,7 @@ def update(id):
         value=(employee_name,employee_salary,employee_city,department_id,id)
         res.execute(sql,value)
         con.commit()
+        add_notification(f"✏ Employee '{employee_name}' updated.")
         return redirect(url_for('home'))
     # Employee Detials
     sql='select * from employee where id=?'
@@ -181,6 +203,7 @@ def add():
         value=(em_name,em_salary,em_city,em_dept_id)
         res.execute(sql,value)
         con.commit()
+        add_notification(f"👤 Employee '{em_name}' added.")
         return redirect(url_for('home'))
     
     #Select Department
@@ -203,6 +226,7 @@ def add_department():
         value=(department_name,)
         res.execute(sql,value)
         con.commit()
+        add_notification(f"🏛 Department '{department_name}' created.")
         return redirect (url_for('department'))
     return render_template('add_department.html')
 
@@ -217,6 +241,7 @@ def delete(id):
     value=(id,)
     res.execute(sql,value)
     con.commit()
+    add_notification(f"🗑 Employee '{employee['name']}' deleted.")
     return redirect(url_for('home'))
 
 #Employees Page
@@ -259,6 +284,7 @@ def update_department(id):
         value=(department_name,id)
         res.execute(sql,value)
         con.commit()
+        add_notification(f"✏ Department '{department_name}' updated.")
         return redirect(url_for('department'))
     
     res=con.cursor()
@@ -279,6 +305,7 @@ def delete_dept(id):
         value=(id,)
         res.execute(sql,value)
         con.commit()
+        add_notification(f"🗑 Department deleted.")
         return redirect(url_for('department'))
     except IntegrityError:
         return """
@@ -394,6 +421,7 @@ def logout():
     session.pop('user', None)
 
     return redirect(url_for('login'))
+
 
 if(__name__)=="__main__":
     app.secret_key="Ajith@9751"

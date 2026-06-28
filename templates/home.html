@@ -14,32 +14,22 @@
 
         <div class="navbar-user">
 
-            <div class="user-info">
+            <ul class="nav-right">
 
-                <span class="welcome">
-                    👋Welcome Back,
-                </span>
+                <li>
+                    <a href="#" class="notification">
+                        🔔 Notifications
+                        <span class="notify-count">{{notification_count.Total_notification}}</span>
+                    </a>
+                </li>
 
-                <span class="username">
-                    {{ username }}
-                </span>
+                <li>
+                    <a href="{{ url_for('logout') }}" class="logout">
+                        🚪 Logout
+                    </a>
+                </li>
 
-                {% if user_info.is_active == 1 %}
-                    <span class="status online">
-                        🟢 Online
-                    </span>
-                    <span class="status offline">
-                        🔴 Offline
-                    </span>
-                {% endif %}
-
-
-            </div>
-
-            <a href="{{ url_for('logout') }}" class="logout">
-                🚪 Logout
-            </a>
-
+            </ul>
         </div>
 
     </div>
@@ -73,9 +63,62 @@
                 <a href="{{url_for('salary_report')}}">💰 Salary Report</a>
                 <a href="{{url_for('top_earners')}}">🏆 Top Earners</a>
 
-                <p class="title">ACCOUNT</p>
+                <hr class="sidebar-divider">
 
-                <a href="{{url_for('logout')}}">🚪 Logout</a>
+                <div class="profile-card">
+
+                    <div class="profile-image">
+                        👤
+                    </div>
+
+                    <h3>{{ username }}</h3>
+
+                    <span class="profile-status">
+                        🟢 Session Active
+                    </span>
+
+                    <hr>
+
+                   <div class="profile-info">
+
+                        <div class="info-item">
+                            <span class="icon">🕒</span>
+
+                        <div>
+                        <h5>Login Time</h5>
+                        <span>{{ user_info.last_login }}</span>
+                         </div>
+                         </div>
+
+                        <div class="info-item">
+                            <span class="icon">🚪</span>
+
+                        <div>
+                            <h5>Last Logout</h5>
+                            <span>{{ user_info.last_logout }}</span>
+                        </div>
+                    </div>
+
+                 </div>
+                    <hr>
+
+                    <div class="system-status">
+
+                        <h4>💻 System Status</h4>
+
+                        <p>🟢 SQL Server Connected</p>
+
+                        <p>🟢 Database Connected</p>
+
+                        <p>🟢 Session Active</p>
+
+                    </div>
+
+                </div>
+                <p>Logout</p>
+                <a href="{{ url_for('logout') }}" class="logout">
+                🚪 Logout
+                </a>
 
             </div>
 
