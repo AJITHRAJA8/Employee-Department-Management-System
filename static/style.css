@@ -15,19 +15,6 @@
 .one h1{
     font-size:38px;
 }
-.one ul{
-    display:flex;
-    gap:30px;
-    list-style:none;
-    font-size:20px;
-}
-.one li{
-    transition:0.30s;
-}
-.one li:hover{
-    color:#10b981;
-    cursor:pointer;
-}
 .sidebar{
     width:250px;
     height:100vh;
@@ -560,4 +547,128 @@ tr:nth-child(even){
 }
 .login-btn:hover{
     background:#059669;
+}
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin:35px 0;
+}
+.page-btn{
+    width:45px;
+    height:45px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+
+    border-radius:40%;
+
+    background:white;
+
+    color:#444;
+
+    font-weight:bold;
+    border:2px solid #E8E8E8;
+
+    transition:.3s;
+
+}
+.page-btn:hover{
+
+    background:#17c27b;
+
+    color:white;
+
+    border-color:#17c27b;
+
+    transform:translatey(3px);
+
+}
+.active{
+
+    background:#17c27b;
+
+    color:white;
+
+    border:none;
+
+    box-shadow:0 10px 25px rgba(23,194,123,.35);
+
+}
+.prev-next{
+
+    width:auto;
+
+    padding:0 20px;
+
+    border-radius:30px;
+
+}
+
+/*NavBar*/
+.one{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 40px;
+
+}
+.navbar-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+.user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+}
+.welcome{
+
+    font-size:14px;
+
+    color:#d1d5db;
+
+}
+.username{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    color:white;
+
+}
+.status{
+
+    color:#22c55e;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+.online{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.offline{
+    color:#dc2626;
+    font-weight:bold;
 }

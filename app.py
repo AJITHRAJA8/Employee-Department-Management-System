@@ -1,5 +1,6 @@
 from flask import Flask,render_template,url_for,request,redirect,session
 import pyodbc
+import math
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #Getting File Name
@@ -42,12 +43,33 @@ def home():
     if 'user' not in session:
         return redirect(url_for('login'))
     
+    #NavBar
+    username = session['user']
+    
+    # Logged-in User Details
+    res = con.cursor()
+    sql = "select username,is_active,last_login,last_logout" \
+    " from login" \
+    " where username = ?"
+    value = (session['user'],)
+    res.execute(sql,value)
+    user_info = fetch_one_dict(res)
+    
+    
+    #pagination
+    page = request.args.get('page',1,type=int)
+    per_page = 5
+    offset = (page - 1)*per_page
+    
     #Dashboard Table
     res=con.cursor()
     sql="select e.id,e.name,d.dept_name,e.salary,e.city from employee as e" \
     " inner join department as d " \
-    " on e.dept_id=d.dept_id"
-    res.execute(sql)
+    " on e.dept_id=d.dept_id" \
+    " order by e.id" \
+    " offset ? rows" \
+    " fetch next ? rows only"
+    res.execute(sql,(offset,per_page))
     result=fetch_all_dict(res)
 
     #employee count
@@ -55,6 +77,9 @@ def home():
     sql='select count(*) as total_employee from employee'
     res.execute(sql)
     employee_count = fetch_one_dict(res)
+    # Total Pages
+    total_pages = math.ceil(employee_count['total_employee'] / per_page)
+    
 
 
     #department count
@@ -65,18 +90,22 @@ def home():
 
     #Avg Salary of Employee
     res=con.cursor()
-    sql='select round(avg(salary),2) as avg_count from employee'
+    sql = 'SELECT CAST(AVG(salary) AS DECIMAL(10,2)) AS avg_count FROM employee'
     res.execute(sql)
     avg_salary=fetch_one_dict(res)
 
     #High Salary
     res=con.cursor()
-    sql='select max(salary) as max_salary from employee'
+    sql='select round(max(salary),2) as max_salary from employee'
     res.execute(sql)
     high_salary=fetch_one_dict(res)
 
     return render_template("home.html", 
                            datas=result,
+                           user_info=user_info,
+                           username=username,
+                           page = page,
+                           total_pages=total_pages,
                            employee_count=employee_count,
                            department_count=department_count,
                            avg_salary=avg_salary,
@@ -290,6 +319,7 @@ def login():
     if request.method=="POST":
         uid = request.form['username']
         pwd = request.form['password']
+
         res=con.cursor()
         sql='select * from login where username=?'
         value=(uid,)
@@ -298,6 +328,16 @@ def login():
 
         if user and check_password_hash(user['password'],pwd):
             session['user'] = uid
+            sql = """
+                UPDATE login
+                SET
+                is_active = 1,
+                last_login = GETDATE()
+                WHERE username = ?
+            """
+            value = (uid,)
+            res.execute(sql,value)
+            con.commit()
             return redirect(url_for('home'))
         else:
             return "Invalid Username or Password"
@@ -332,7 +372,27 @@ def register_page():
 #logout page     
 @app.route('/logout')
 def logout():
-    session.pop('user',None)
+
+    uid = session['user']
+
+    res = con.cursor()
+
+    sql = """
+    UPDATE login
+    SET
+        is_active = 0,
+        last_logout = GETDATE()
+    WHERE username = ?
+    """
+
+    value = (uid,)
+
+    res.execute(sql, value)
+
+    con.commit()
+
+    session.pop('user', None)
+
     return redirect(url_for('login'))
 
 if(__name__)=="__main__":

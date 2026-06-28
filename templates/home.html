@@ -7,14 +7,41 @@
 </head>
 
 <body>
-    <!-- Navbar -->
+   <!-- Navbar -->
     <div class="one">
+
         <h1>👨🏻‍💻 Employee & Department Management System</h1>
-        <ul>
-            <li>🔔 Notifications</li>
-            <li>ℹ️ About Us</li>
-            <li>📞 Contact Us</li>
-        </ul>
+
+        <div class="navbar-user">
+
+            <div class="user-info">
+
+                <span class="welcome">
+                    👋Welcome Back,
+                </span>
+
+                <span class="username">
+                    {{ username }}
+                </span>
+
+                {% if user_info.is_active == 1 %}
+                    <span class="status online">
+                        🟢 Online
+                    </span>
+                    <span class="status offline">
+                        🔴 Offline
+                    </span>
+                {% endif %}
+
+
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="logout">
+                🚪 Logout
+            </a>
+
+        </div>
+
     </div>
 
     <!-- Sidebar + Dashboard -->
@@ -182,6 +209,39 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="pagination">
+
+                        {% if page > 1 %}
+                            <a href="{{ url_for('home', page=page-1) }}" class="page-btn">
+                             Previous
+                                </a>
+                        {% endif %}
+
+                        {% for p in range(1, total_pages + 1) %}
+
+                            {% if p == page %}
+
+                                <span class="page-btn active">
+                                    {{ p }}
+                                </span>
+
+                             {% else %}
+
+                                <a href="{{ url_for('home', page=p) }}" class="page-btn">
+                                 {{ p }}
+                                </a>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                        {% if page < total_pages %}
+                            <a href="{{ url_for('home', page=page+1) }}" class="page-btn">
+                                Next
+                             </a>
+                        {% endif %}
+
+                    </div>
                 </div>
 
             </div>
