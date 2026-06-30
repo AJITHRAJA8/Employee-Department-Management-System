@@ -812,6 +812,23 @@ tr:nth-child(even){
     font-weight:600;
 
 }
+.error{
+
+    background:#ffe5e5;
+
+    color:#d60000;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    margin-bottom:15px;
+
+    text-align:center;
+
+    font-weight:600;
+
+}
 .notify-count{
 
     background:#ef4444;

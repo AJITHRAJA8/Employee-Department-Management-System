@@ -45,7 +45,12 @@ def login():
             return redirect(url_for("dashboard.home"))
 
         else:
-            return "Invalid Username or Password"
+
+            return render_template(
+                "login.html",
+                error="Invalid Username or Password",
+                username=uid
+            )
 
     return render_template("login.html")
 
@@ -61,11 +66,30 @@ def register_page():
         confirm_pwd = request.form['confirm_password']
 
         if pwd != confirm_pwd:
-            return "Passwords do not match"
 
-        hash_password = generate_password_hash(pwd)
+            return render_template(
+                "register.html",
+                error="Password and Confirm Password do not match.",
+                username=uid
+            )
 
         res = con.cursor()
+
+        sql = "SELECT * FROM login WHERE username=?"
+
+        res.execute(sql, (uid,))
+
+        user = fetch_one_dict(res)
+
+        if user:
+
+            return render_template(
+                "register.html",
+                error="Username already exists.",
+                username=uid
+            )
+
+        hash_password = generate_password_hash(pwd)
 
         sql = "INSERT INTO login(username,password) VALUES(?,?)"
 
